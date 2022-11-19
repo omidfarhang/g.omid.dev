@@ -3,6 +3,7 @@
 import { Router } from 'itty-router';
 import qr from 'qr-image';
 import Mustache from 'mustache';
+import * as yourlsUrl from './old-db/yourls.json';
 
 const CACHE_FOR = 3600;
 
@@ -50,11 +51,12 @@ router.get('/:id\\~', async request => {
 });
 
 router.get('/:id', async request => {
-	let [id, addon] = decodeURIComponent(request.params.id).split(':');
-	id = id.replaceAll('-', '').toLowerCase();
+	const [id, addon] = decodeURIComponent(request.params.id).split(':');
 	const long = await SHORTLINKS.get(id, { cacheTtl: CACHE_FOR });
 
-	if (!long) {
+	const yourls = yourlsUrl.data.find(el => el.keyword === id);
+
+	if (!long && !yourls) {
 		let html = await (await fetch('https://g.omid.dev/invalid.html')).text();
 		html = Mustache.render(html, { id });
 		return new Response(html, {
@@ -62,7 +64,12 @@ router.get('/:id', async request => {
 			status: 404,
 		});
 	} else {
-		return Response.redirect(addon ? long + '#' + addon : long, 302);
+		if(long) {
+			return Response.redirect(addon ? long + '#' + addon : long, 302);
+		}
+		if (yourls) {
+			return Response.redirect(addon ? long + '#' + addon : yourls.url, 302);
+		}
 	}
 });
 
