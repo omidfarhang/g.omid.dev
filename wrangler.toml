@@ -1,0 +1,11 @@
+name = "g-omid-dev"
+main = "./index.js"
+account_id = "7a7dc686e71a3092b4275d55e6d518d3"
+usage_model = "bundled"
+compatibility_flags = []
+workers_dev = true
+compatibility_date = "2022-11-19"
+node_compat = true
+kv_namespaces = [ 
+    { binding = "SHORTLINKS", id = "4573a71d96864448827691a72b552de9", preview_id="ecdbcd8d620d44638b72ee22c56997b7" }
+]

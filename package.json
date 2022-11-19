@@ -1,0 +1,20 @@
+{
+	"name": "go.omid.dev",
+	"private": true,
+	"version": "1.0.0",
+	"description": "Branded Short URLs of Omid",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Omid Farhang",
+	"license": "MIT",
+	"devDependencies": {
+		"eslint": "^8.28.0"
+	},
+	"dependencies": {
+		"itty-router": "^2.6.6",
+		"mustache": "^4.2.0",
+		"qr-image": "^3.2.0"
+	}
+}
