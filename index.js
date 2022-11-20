@@ -30,12 +30,12 @@ router.get('/:id\\~', async request => {
 	let html, status;
 
 	if (!long) {
-		html = await (await fetch('https://g.omid.dev/invalid.html')).text();
+		html = await (await fetch('https://go.omid.dev/invalid.html')).text();
 		html = Mustache.render(html, { id });
 		status = 404;
 	} else {
 		const { hostname } = new URL(long);
-		html = await (await fetch('https://g.omid.dev/preview.html')).text();
+		html = await (await fetch('https://go.omid.dev/preview.html')).text();
 		html = Mustache.render(html, {
 			hostname,
 			id: addon ? id + ':' + addon : id,
@@ -57,7 +57,7 @@ router.get('/:id', async request => {
 	const yourls = yourlsUrl.data.find(el => el.keyword === id);
 
 	if (!long && !yourls) {
-		let html = await (await fetch('https://g.omid.dev/invalid.html')).text();
+		let html = await (await fetch('https://go.omid.dev/invalid.html')).text();
 		html = Mustache.render(html, { id });
 		return new Response(html, {
 			headers: { 'content-type': 'text/html;charset=UTF-8' },
