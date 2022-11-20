@@ -10,5 +10,5 @@ workers_dev = true
 compatibility_date = "2022-11-19"
 node_compat = true
 kv_namespaces = [
-    { binding = "SHORTLINKS", id = "4573a71d96864448827691a72b552de9", preview_id="ecdbcd8d620d44638b72ee22c56997b7" }
+    { binding = "SHORTLINKS", id = "4573a71d96864448827691a72b552de9" }
 ]
