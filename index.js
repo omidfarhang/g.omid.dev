@@ -6,8 +6,20 @@ import Mustache from 'mustache';
 import * as yourlsUrl from './old-db/yourls.json';
 
 const CACHE_FOR = 3600;
+const random_shorturls_length = 7;
+const urlDomain = 'https://go.omid.dev/';
+const CHARSET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
 const router = Router();
+
+function random_shorturl() {
+	let randomUrl ='';
+	while(randomUrl.length < random_shorturls_length) {
+		const p = Math.floor(Math.random()*((CHARSET.length) + 1));
+		randomUrl = randomUrl + CHARSET.slice(p, p + 1);
+	}
+	return randomUrl;
+}
 
 async function shortToLong(id) {
 	const long = await SHORTLINKS.get(id, { cacheTtl: CACHE_FOR });
@@ -22,7 +34,43 @@ async function shortToLong(id) {
 	}
 }
 
+async function addNew(longUrl, keyword = null) {
+	if (!longUrl) {
+		return false;
+	}
+	if (!keyword) {
+		keyword = 	random_shorturl();
+	}
+
+	const exist = await shortToLong(keyword);
+
+	if(!exist) {
+		const result = await SHORTLINKS.put(keyword, longUrl);
+		if(result) {
+			const fullShortUrl = urlDomain + keyword;
+			return new Response(fullShortUrl, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
+		}
+	}
+}
+
 router.get('/favicon.ico', () => Response.redirect('https://omid.dev/favicon.ico', 301));
+
+router.get('/add-url', request => {
+	const action = decodeURIComponent(request.params.action);
+	const signature = decodeURIComponent(request.params.signature);
+
+	if(action === 'version'){
+		const resp = '2.0.0cf';
+		return new Response(resp, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
+	}
+
+	if(action === 'shorturl' && (signature === SECRET_SIGNATURE)){
+		const url = decodeURIComponent(request.params.url);
+		const keyword = decodeURIComponent(request.params.keyword);
+		addNew(url, keyword);
+	}
+
+});
 
 router.get('/:id.png', request => {
 	const id = decodeURIComponent(request.params.id);
