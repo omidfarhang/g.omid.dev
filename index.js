@@ -31,6 +31,8 @@ async function shortToLong(id) {
 	if (yourls && !long) {
 		await SHORTLINKS.put(id, yourls.url);
 		return yourls.url;
+	} else {
+		return false;
 	}
 }
 
@@ -42,18 +44,17 @@ async function addNew(longUrl, keyword = null) {
 		keyword = random_shorturl();
 	}
 
-	const exist = await shortToLong(keyword);
-
-	if (!exist) {
-		const result = await SHORTLINKS.put(keyword, longUrl);
-		if (result) {
-			const fullShortUrl = urlDomain + keyword;
-			return fullShortUrl;
-		}
-	} else {
-		return false;
-	}
-
+	return await shortToLong(keyword).then(
+		async found => {
+			if (found) {
+				return new Response('Keyword Already Exist: ' + keyword, { status: 400 });
+			} else {
+				return await SHORTLINKS.put(keyword, longUrl).then(
+					() => new Response(urlDomain + keyword, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } }),
+					error => new Response('Something went wrong: ' + error, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } }),
+				)}
+		},
+	);
 }
 
 router.get('/favicon.ico', () => Response.redirect('https://omid.dev/favicon.ico', 301));
@@ -72,12 +73,11 @@ router.get('/yourls-api.php', async request => {
 		if (signature === SECRET_SIGNATURE) {
 			const url = searchParams.get('url');
 			const keyword = searchParams.get('keyword');
-			const result = await addNew(url, keyword);
-			if (result) {
-				return new Response(result, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
-			} else {
-				return new Response('Something went wrong', { status: 400 });
-			}
+
+			return await addNew(url, keyword).then(
+				data => data,
+				failed => failed,
+			);
 		} else {
 			return new Response('Invalid Secret', { status: 403 });
 		}
