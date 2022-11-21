@@ -13,9 +13,9 @@ const CHARSET = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
 const router = Router();
 
 function random_shorturl() {
-	let randomUrl ='';
-	while(randomUrl.length < random_shorturls_length) {
-		const p = Math.floor(Math.random()*((CHARSET.length) + 1));
+	let randomUrl = '';
+	while (randomUrl.length < random_shorturls_length) {
+		const p = Math.floor(Math.random() * ((CHARSET.length) + 1));
 		randomUrl = randomUrl + CHARSET.slice(p, p + 1);
 	}
 	return randomUrl;
@@ -39,36 +39,51 @@ async function addNew(longUrl, keyword = null) {
 		return false;
 	}
 	if (!keyword) {
-		keyword = 	random_shorturl();
+		keyword = random_shorturl();
 	}
 
 	const exist = await shortToLong(keyword);
 
-	if(!exist) {
+	if (!exist) {
 		const result = await SHORTLINKS.put(keyword, longUrl);
-		if(result) {
+		if (result) {
 			const fullShortUrl = urlDomain + keyword;
-			return new Response(fullShortUrl, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
+			return fullShortUrl;
 		}
+	} else {
+		return false;
 	}
+
 }
 
 router.get('/favicon.ico', () => Response.redirect('https://omid.dev/favicon.ico', 301));
 
-router.get('/add-url', request => {
-	const action = decodeURIComponent(request.params.action);
-	const signature = decodeURIComponent(request.params.signature);
+router.get('/yourls-api.php', async request => {
+	const { searchParams } = new URL(request.url);
+	const action = searchParams.get('action');
+	const signature = searchParams.get('signature');
 
-	if(action === 'version'){
+	if (action === 'version') {
 		const resp = '2.0.0cf';
 		return new Response(resp, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
 	}
 
-	if(action === 'shorturl' && (signature === SECRET_SIGNATURE)){
-		const url = decodeURIComponent(request.params.url);
-		const keyword = decodeURIComponent(request.params.keyword);
-		addNew(url, keyword);
+	if (action === 'shortlink') {
+		if (signature === SECRET_SIGNATURE) {
+			const url = searchParams.get('url');
+			const keyword = searchParams.get('keyword');
+			const result = await addNew(url, keyword);
+			if (result) {
+				return new Response(result, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
+			} else {
+				return new Response('Something went wrong', { status: 400 });
+			}
+		} else {
+			return new Response('Invalid Secret', { status: 403 });
+		}
 	}
+
+	return new Response(action, { headers: { 'Content-Type': 'text/html;charset=UTF-8' } });
 
 });
 
