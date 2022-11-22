@@ -1,4 +1,4 @@
-{
+export const yourlsdb = {
   "type": "table",
   "name": "yourls_url",
   "database": "yourls",
