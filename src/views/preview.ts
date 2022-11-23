@@ -14,7 +14,7 @@ export const tmplPreview = `<!DOCTYPE html>
 <meta name="url" content="/{{id}}~">
 <meta name="og:url" content="/{{id}}~" />
 <meta name="og:image" content="https://omid.dev/assets/images/2019/01/16583454_210922376050059_7816295726543011840_n-1-300x300.jpg" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulmaswatch/0.8.1/darkly/bulmaswatch.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulmaswatch/0.8.1/sandstone/bulmaswatch.min.css">
 <link rel="icon" href="/favicon.ico" type="image/icon">
 <link rel="icon" href="https://omid.dev/assets/logo/favicon.ico" type="image/icon">
 <script defer src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>

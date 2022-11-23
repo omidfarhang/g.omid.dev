@@ -6,8 +6,7 @@ export const tmpl404 = `
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulmaswatch/0.8.1/darkly/bulmaswatch.min.css">
-<link rel="icon" href="/favicon.ico" type="image/icon">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulmaswatch/0.8.1/sandstone/bulmaswatch.min.css">
 <link rel="icon" href="https://omid.dev/assets/logo/favicon.ico" type="image/icon">
 </head>
 <body>

@@ -7,8 +7,8 @@ import YourlsHandler from './handlers/yourls';
 
 const router = Router();
 
-router
-	.get('/favicon.ico', () => Response.redirect('https://omid.dev/favicon.ico', 301))
+
+router.get('/favicon.ico', () => Response.redirect('https://omid.dev/favicon.ico', 301))
 	.get('/yourls-api.php', YourlsHandler)
 	.post('/yourls-api.php', YourlsHandler)
 	.get('/:id.png', QrHandler)
@@ -16,4 +16,7 @@ router
 	.get('/:id', ShortlinkHandler)
 	.get('/', () => Response.redirect('https://omid.dev', 302));
 
-export const handleRequest = (request: any) => router.handle(request);
+
+addEventListener('fetch', event => {
+	event.respondWith(router.handle(event.request));
+});
