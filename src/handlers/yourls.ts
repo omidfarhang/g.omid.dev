@@ -6,15 +6,25 @@ import { tmplPreview } from '../views/preview';
 const commonSrv = new CommonService();
 
 const YourlsHandler = async (request: any) => {
-	const reqBody = await commonSrv.readRequestBody(request);
+return await commonSrv.readRequestBody(request).then(async reqBody => {
+	let action, signature, url, keyword;
+	if (request.method === 'POST') {
+		reqBody = JSON.parse(reqBody);
+		action = reqBody.action || null;
+		signature = reqBody.signature || null;
+		url = reqBody.url || null;
+		keyword = reqBody.keyword || null;
+	}
+	if (request.method === 'GET') {
 		const { searchParams } = new URL(request.url);
-		const action = searchParams.get('action') || reqBody.action;
-		const signature = searchParams.get('signature') || reqBody.signature;
-		const url = searchParams.get('url') || reqBody.url;
-		const keyword = searchParams.get('keyword') || reqBody.keyword;
+		action = searchParams.get('action');
+		signature = searchParams.get('signature');
+		url = searchParams.get('url');
+		keyword = searchParams.get('keyword');
+	}
 
-	if (action === 'version') {
-		const resp = '2.0.0cf';
+	if ((action) === 'version') {
+		const resp = '2.0.0';
 		return new Response(resp, {
 			headers: { 'Content-Type': 'text/html;charset=UTF-8' },
 		});
@@ -31,9 +41,13 @@ const YourlsHandler = async (request: any) => {
 		}
 	}
 
-	return new Response(action, {
+	return new Response(reqBody, {
 		headers: { 'Content-Type': 'text/html;charset=UTF-8' },
 	});
+
+})
+
+
 };
 
 export default YourlsHandler;
