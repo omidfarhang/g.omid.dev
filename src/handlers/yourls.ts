@@ -24,13 +24,13 @@ return await commonSrv.readRequestBody(request).then(async reqBody => {
 	}
 
 	if ((action) === 'version') {
-		const resp = '2.0.0';
+		const resp = '2.0.0cf';
 		return new Response(resp, {
 			headers: { 'Content-Type': 'text/html;charset=UTF-8' },
 		});
 	}
 
-	if (action === 'shortlink') {
+	if (action === 'shorturl') {
 		if (signature === SECRET_SIGNATURE) {
 			return await commonSrv.addNew(url, keyword).then(
 				(data) => data,
