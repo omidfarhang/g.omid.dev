@@ -18,7 +18,7 @@ return await commonSrv.readRequestBody(request).then(async reqBody => {
 		signature = reqBody.signature || null;
 		url = reqBody.url || null;
 		keyword = reqBody.keyword || null;
-		format = reqBody.keyword || 'xml';
+		format = reqBody.format || 'xml';
 	}
 	if (request.method === 'GET') {
 		const { searchParams } = new URL(request.url);
