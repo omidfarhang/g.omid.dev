@@ -1,4 +1,4 @@
-export interface shorturl {
+export interface shorturlResponse {
 	status: string;
 	code: string;
 	message: string;

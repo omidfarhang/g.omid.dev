@@ -41,6 +41,7 @@
 	"dependencies": {
 		"itty-router": "^2.6.6",
 		"mustache": "^4.2.0",
-		"qr-image": "^3.2.0"
+		"qr-image": "^3.2.0",
+		"xml2js": "^0.4.23"
 	}
 }
