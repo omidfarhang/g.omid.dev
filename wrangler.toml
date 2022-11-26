@@ -1,7 +1,7 @@
 name = "g-omid-dev"
 main = "./src/index.ts"
 routes = [
-	{ pattern = "go.omid.dev", custom_domain = true, zone_name = "omid.dev" }
+	{ pattern = "g.omid.dev", custom_domain = true, zone_name = "omid.dev" }
 ]
 account_id = "7a7dc686e71a3092b4275d55e6d518d3"
 usage_model = "bundled"

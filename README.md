@@ -1,3 +1,3 @@
-# go.omid.dev
+# g.omid.dev
 
 URL Shortening service
