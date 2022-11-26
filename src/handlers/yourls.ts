@@ -1,19 +1,9 @@
 import CommonService from '../common.service';
 import { commonError } from '../models/error';
-import { yourlsdb } from '../old-db/yourls';
 
 const commonSrv = new CommonService();
 
 const YourlsHandler = async (request: any) => {
-	yourlsdb.data.forEach(async element => {
-		const info = await DB.prepare('INSERT INTO urls (keyword, url, title, timestamp, ip, clicks) VALUES (?1, ?2, ?3, ?4, ?5, ?6)')
-                    .bind(element.keyword, element.url, element.title, element.timestamp, element.ip, element.clicks)
-                    .run()
-		console.log(info);
-	});
-
-
-
 return await commonSrv.readRequestBody(request).then(async reqBody => {
 	let action, signature, url, keyword, format = 'xml';
 	if (request.method === 'POST') {
