@@ -1,7 +1,10 @@
+import xml2js from 'xml2js';
 import { constants } from './constants';
 import { commonError } from './models/error';
 import { shorturlResponse } from './models/shorturl-response';
 import { yourlsdb } from './old-db/yourls';
+
+const xmlbuilder = new xml2js.Builder();
 
 export default class CommonService {
 	async readRequestBody(request: any) {
@@ -21,6 +24,21 @@ export default class CommonService {
 				body[entry[0]] = entry[1];
 			}
 			return JSON.stringify(body);
+		}
+	}
+
+	responseHandler(resp: any, format = 'xml', status = 200) {
+		if(format === 'json') {
+			return new Response(JSON.stringify(resp), { headers: { 'Content-Type': 'application/json;charset=UTF-8' }, status: status});
+		}
+		if(format === 'jsonp') {
+			return new Response('('+JSON.stringify(resp)+')', { headers: { 'Content-Type': 'application/javascript;charset=UTF-8' }, status: status});
+		}
+		if(format === 'xml') {
+			return new Response(xmlbuilder.buildObject(resp), { headers: {'content-type': 'application/xml;charset=utf-8'}, status: status});
+		}
+		if(format === 'simple') {
+			return new Response(resp, { headers: { 'Content-Type': 'text/html;charset=UTF-8' }, status: status});
 		}
 	}
 
