@@ -2,17 +2,24 @@ import CommonService from '../common.service';
 import { commonError } from '../models/error';
 import { yourlsdb } from '../old-db/yourls';
 
-const commonSrv = new CommonService();
+import { GenerateQuery, QueryType  } from "d1-orm";
 
-function delay(ms: number) {
-	return new Promise( resolve => setTimeout(resolve, ms) );
+export interface Env {
+	// from @cloudflare/workers-types
+	DB: D1Database;
 }
+
+const commonSrv = new CommonService();
 
 const YourlsHandler = async (request: any) => {
 	yourlsdb.data.forEach(async element => {
-		await SHORTLINKS.put(element.keyword, element.url);
-		await delay(1000);
+		const info = await db.prepare('INSERT INTO urls (keyword, url, title, timestamp, ip, clicks) VALUES (?1, ?2, ?3, ?4, ?5, ?6)')
+                    .bind(element.keyword, element.url, element.title, element.timestamp, element.ip, element.clicks)
+                    .run()
+		console.log(info);
 	});
+
+
 
 return await commonSrv.readRequestBody(request).then(async reqBody => {
 	let action, signature, url, keyword, format = 'xml';

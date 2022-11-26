@@ -14,3 +14,7 @@ kv_namespaces = [
 ]
 [vars]
 SECRET_SIGNATURE = "af68d7e176"
+[[ d1_databases ]]
+binding = "DB" # i.e. available in your Worker on env.DB
+database_name = "SHORTLINKS_DB"
+database_id = "82ae101c-7716-415c-ba98-c6d766abada8"
