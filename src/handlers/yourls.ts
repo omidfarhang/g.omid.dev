@@ -1,25 +1,17 @@
 import CommonService from '../common.service';
 import { commonError } from '../models/error';
-import { D1QB } from 'workers-qb'
 import { yourlsdb } from '../old-db/yourls';
 
-const qb = new D1QB(DB)
 const commonSrv = new CommonService();
+
+function delay(ms: number) {
+	return new Promise( resolve => setTimeout(resolve, ms) );
+}
 
 const YourlsHandler = async (request: any) => {
 	yourlsdb.data.forEach(async element => {
-		await qb.insert({
-			tableName: 'urls',
-			data: {
-				keyword: element.keyword,
-				url: element.url,
-				title: element.title,
-				timestamp: element.timestamp,
-				ip: element.ip,
-				clicks: element.clicks
-			},
-			returning: '*',
-	})
+		await SHORTLINKS.put(element.keyword, element.url);
+		await delay(1000);
 	});
 
 return await commonSrv.readRequestBody(request).then(async reqBody => {
