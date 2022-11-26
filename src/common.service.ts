@@ -120,7 +120,7 @@ export default class CommonService {
 							errorCode: 400,
 							callback: ''
 						}
-						return errorResp;
+						return Promise.reject(errorResp);
 					}
 				);
 			}
