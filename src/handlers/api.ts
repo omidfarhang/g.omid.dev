@@ -3,7 +3,7 @@ import { commonError } from '../models/error';
 
 const commonSrv = new CommonService();
 
-const YourlsHandler = async (request: any) => {
+const ApiHandler = async (request: any) => {
 return await commonSrv.readRequestBody(request).then(async reqBody => {
 	let action, signature, url, keyword, format = 'xml';
 	if (request.method === 'POST') {
@@ -70,4 +70,4 @@ return await commonSrv.readRequestBody(request).then(async reqBody => {
 
 };
 
-export default YourlsHandler;
+export default ApiHandler;
