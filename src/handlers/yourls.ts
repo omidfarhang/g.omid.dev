@@ -43,7 +43,13 @@ return await commonSrv.readRequestBody(request).then(async reqBody => {
 					return commonSrv.responseHandler(data, format, data.statusCode)
 				}
 			},
-			(failed) => failed
+			(failed) => {
+				if(format === 'simple') {
+					return commonSrv.responseHandler(failed.message, format, failed.errorCode)
+				} else {
+					return commonSrv.responseHandler(failed, format, failed.errorCode)
+				}
+			}
 		);
 	}
 } else {
