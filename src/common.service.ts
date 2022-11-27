@@ -27,7 +27,7 @@ export default class CommonService {
 		}
 	}
 
-	responseHandler(resp: any, format = 'xml', status = 200) {
+	responseHandler(resp: any, simple_resp: string, format = 'xml', status = 200) {
 		if(format === 'json') {
 			return new Response(JSON.stringify(resp), { headers: { 'Content-Type': 'application/json;charset=UTF-8' }, status: status});
 		}
@@ -38,7 +38,7 @@ export default class CommonService {
 			return new Response(xmlbuilder.buildObject(resp), { headers: {'content-type': 'application/xml;charset=utf-8'}, status: status});
 		}
 		if(format === 'simple') {
-			return new Response(resp, { headers: { 'Content-Type': 'text/html;charset=UTF-8' }, status: status});
+			return new Response(simple_resp, { headers: { 'Content-Type': 'text/html;charset=UTF-8' }, status: status});
 		}
 	}
 

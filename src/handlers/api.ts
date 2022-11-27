@@ -27,28 +27,16 @@ return await commonSrv.readRequestBody(request).then(async reqBody => {
 
 	if ((action) === 'version') {
 		const resp = {version: '2.0.0cf'};
-		if(format === 'simple') {
-			return commonSrv.responseHandler(resp.version, format)
-		} else {
-			return commonSrv.responseHandler(resp, format)
-		}
+		return commonSrv.responseHandler(resp, resp.version, format)
 	}
 
 	if (action === 'shorturl') {
 		return await commonSrv.addNew(url, keyword).then(
 			(data) => {
-				if(format === 'simple') {
-					return commonSrv.responseHandler(data.shorturl, format, data.statusCode)
-				} else {
-					return commonSrv.responseHandler(data, format, data.statusCode)
-				}
+				return commonSrv.responseHandler(data, data.shorturl, format, data.statusCode)
 			},
 			(failed) => {
-				if(format === 'simple') {
-					return commonSrv.responseHandler(failed.message, format, failed.errorCode)
-				} else {
-					return commonSrv.responseHandler(failed, format, failed.errorCode)
-				}
+				return commonSrv.responseHandler(failed, failed.message, format, failed.errorCode)
 			}
 		);
 	}
@@ -58,12 +46,7 @@ return await commonSrv.readRequestBody(request).then(async reqBody => {
 		errorCode: 403,
 		callback: ''
 	}
-
-	if(format === 'simple') {
-		return commonSrv.responseHandler(loginError.message, format, loginError.errorCode)
-	} else {
-		return commonSrv.responseHandler(loginError, format, loginError.errorCode)
-	}
+	return commonSrv.responseHandler(loginError, loginError.message, format, loginError.errorCode)
 }
 })
 
