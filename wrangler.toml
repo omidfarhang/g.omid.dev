@@ -12,6 +12,10 @@ node_compat = true
 kv_namespaces = [
     { binding = "SHORTLINKS", id = "4573a71d96864448827691a72b552de9", preview_id = "5cc9d481707349438fca44a0a1b4665d" }
 ]
-d1_databases = [
-    { binding = "DB", database_name = "SHORTLINKS_DB", database_id = "bfa491be-cc38-4873-bc9c-2ddec2f87338" }
-]
+# d1_databases = [
+#     { binding = "DB", database_name = "SHORTLINKS_DB", database_id = "bfa491be-cc38-4873-bc9c-2ddec2f87338" }
+# ]
+[[ d1_databases ]]
+binding = "DB"
+database_name = "SHORTLINKS_DB"
+database_id = "bfa491be-cc38-4873-bc9c-2ddec2f87338"
