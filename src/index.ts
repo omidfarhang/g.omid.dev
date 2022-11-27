@@ -19,7 +19,16 @@ router.get('/favicon.ico', () => Response.redirect('https://omid.dev/favicon.ico
 	.get('/:id', ShortlinkHandler)
 	.get('/', () => Response.redirect('https://omid.dev', 302));
 
+export default {
+	async fetch(request: Request) {
+					try {
+									return handleRequest(request);
+					} catch (e) {
+									return new Response(`${e}`);
+					}
+	},
+};
 
-addEventListener('fetch', event => {
-	event.respondWith(router.handle(event.request));
-});
+async function handleRequest(request: Request) {
+	return router.handle(request)
+}
