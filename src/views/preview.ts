@@ -1,14 +1,14 @@
 export const tmplPreview = `<!DOCTYPE html>
 <html>
 <head>
-<title>Link Preview • g.omid.dev</title>
+<title>Link Preview • go.omid.dev</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="theme-color" content="#00FFFF">
 <meta name="title" content="Link Preview">
 <meta name="og:title" content="Link Preview" />
-<meta name="og:site_name" content="g.omid.dev" />
+<meta name="og:site_name" content="go.omid.dev" />
 <meta name="description" content="Link preview for {{id}}">
 <meta name="og:description" content="Link preview for {{id}}" />
 <meta name="url" content="/{{id}}~">
